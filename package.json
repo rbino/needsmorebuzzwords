@@ -14,5 +14,12 @@
     "bigdata"
   ],
   "author": "rbino",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "auto-reload-brunch": "^2.7.1",
+    "brunch": "^2.10.12",
+    "elm": "^0.18.0",
+    "elm-brunch": "^0.11.1",
+    "uglify-js-brunch": "^2.10.0"
+  }
 }
