@@ -1,7 +1,8 @@
 module Main exposing (main)
 
 
-import Html exposing (Html, div, text, program)
+import Html exposing (Html, div, text, program, textarea)
+import Html.Events exposing (onInput)
 
 
 -- MODEL
@@ -13,7 +14,7 @@ type alias Model =
 
 init : ( Model, Cmd Msg )
 init =
-    ( "Hello", Cmd.none )
+    ( "", Cmd.none )
 
 
 
@@ -22,6 +23,7 @@ init =
 
 type Msg
     = NoOp
+    | TextChanged String
 
 
 
@@ -30,8 +32,18 @@ type Msg
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ text model ]
+    div
+        []
+        [ div
+            []
+            [ textarea
+                [ onInput TextChanged ]
+                []
+            ]
+        , div
+            []
+            [ text model ]
+        ]
 
 
 
@@ -43,6 +55,9 @@ update msg model =
     case msg of
         NoOp ->
             ( model, Cmd.none )
+
+        TextChanged text ->
+            ( text, Cmd.none )
 
 
 
