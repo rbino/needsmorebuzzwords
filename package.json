@@ -6,7 +6,8 @@
   "main": "app.js",
   "scripts": {
     "watch": "brunch watch --server",
-    "build": "brunch build --production"
+    "build": "brunch build --production",
+    "elm-package": "elm-package"
   },
   "keywords": [
     "blockchain",
