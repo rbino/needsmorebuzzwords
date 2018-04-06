@@ -1,7 +1,8 @@
 module Main exposing (main)
 
 
-import Html exposing (Html, div, text, program, textarea)
+import Html exposing (Html, div, text, program, textarea, input)
+import Html.Attributes as H exposing (min, max, type_)
 import Html.Events exposing (onInput)
 
 
@@ -9,12 +10,21 @@ import Html.Events exposing (onInput)
 
 
 type alias Model =
-    String
+    { outputText : String
+    , buzzwordRatio : Float
+    }
 
 
 init : ( Model, Cmd Msg )
 init =
-    ( "", Cmd.none )
+    ( initModel, Cmd.none )
+
+
+initModel : Model
+initModel =
+    { outputText = ""
+    , buzzwordRatio = 0.1
+    }
 
 
 
@@ -24,6 +34,7 @@ init =
 type Msg
     = NoOp
     | TextChanged String
+    | BuzzwordRatioChanged String
 
 
 
@@ -42,7 +53,17 @@ view model =
             ]
         , div
             []
-            [ text model ]
+            [ input
+                [ type_ "range"
+                , H.min <| toString scaledMinBuzzwordRatio
+                , H.max <| toString scaledMaxBuzzwordRatio
+                , onInput BuzzwordRatioChanged
+                ]
+                []
+            ]
+        , div
+            []
+            [ text model.outputText ]
         ]
 
 
@@ -57,7 +78,17 @@ update msg model =
             ( model, Cmd.none )
 
         TextChanged text ->
-            ( text, Cmd.none )
+            ( { model | outputText = text }, Cmd.none )
+
+        BuzzwordRatioChanged rangeText ->
+            let
+                newBuzzwordRatio =
+                    String.toFloat rangeText
+                    |> Result.withDefault (model.buzzwordRatio * rangeScalingFactor)
+                    |> flip (/) rangeScalingFactor
+            in
+                ( { model | buzzwordRatio = newBuzzwordRatio}, Cmd.none )
+
 
 
 
@@ -67,6 +98,25 @@ update msg model =
 subscriptions : Model -> Sub Msg
 subscriptions model =
     Sub.none
+
+
+
+-- CONSTANTS
+
+
+rangeScalingFactor : Float
+rangeScalingFactor =
+    1000
+
+
+scaledMinBuzzwordRatio : Float
+scaledMinBuzzwordRatio =
+    0.1 * rangeScalingFactor
+
+
+scaledMaxBuzzwordRatio : Float
+scaledMaxBuzzwordRatio =
+    10 * rangeScalingFactor
 
 
 
