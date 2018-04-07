@@ -4,6 +4,7 @@ module Main exposing (main)
 import Html exposing (Html, div, text, program, textarea, input)
 import Html.Attributes as H exposing (min, max, type_)
 import Html.Events exposing (onInput)
+import Random exposing (Seed, initialSeed, minInt, maxInt)
 
 
 -- MODEL
@@ -12,6 +13,7 @@ import Html.Events exposing (onInput)
 type alias Model =
     { outputText : String
     , buzzwordRatio : Float
+    , randomSeed : Seed
     }
 
 
@@ -24,7 +26,14 @@ initModel : Model
 initModel =
     { outputText = ""
     , buzzwordRatio = 0.1
+    , randomSeed = initialSeed 0
     }
+
+
+initCmd : Cmd Msg
+initCmd =
+    Random.int minInt maxInt
+        |> Random.generate RandomIntGenerated
 
 
 
@@ -35,6 +44,7 @@ type Msg
     = NoOp
     | TextChanged String
     | BuzzwordRatioChanged String
+    | RandomIntGenerated Int
 
 
 
@@ -88,6 +98,9 @@ update msg model =
                     |> flip (/) rangeScalingFactor
             in
                 ( { model | buzzwordRatio = newBuzzwordRatio}, Cmd.none )
+
+        RandomIntGenerated randomInt ->
+            ( { model | randomSeed = initialSeed randomInt }, Cmd.none )
 
 
 
