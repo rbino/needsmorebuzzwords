@@ -117,6 +117,64 @@ subscriptions model =
 
 
 
+-- DATA MANIPULATION
+
+
+buzzwordize : String -> Float -> Seed -> (String, Seed)
+buzzwordize input buzzwordRatio seed =
+    let
+        splitted =
+            String.split " " input
+                |> List.filter (not << String.isEmpty)
+        finalAcc =
+            List.foldl
+                (buzzwordIntersperse buzzwordRatio)
+                { outputList = [], ratioSum = 0, seed = seed }
+                splitted
+    in
+        ( finalAcc.outputList
+            |> List.reverse
+            |> String.join " "
+        , finalAcc.seed
+        )
+
+
+type alias BuzzwordIntersperseAcc =
+    { outputList : List String
+    , ratioSum : Float
+    , seed : Seed
+    }
+
+
+buzzwordIntersperse : Float -> String -> BuzzwordIntersperseAcc -> BuzzwordIntersperseAcc
+buzzwordIntersperse buzzwordRatio word acc =
+    let
+        nBuzzwords = floor acc.ratioSum
+        newRatioSum = acc.ratioSum - toFloat nBuzzwords + buzzwordRatio
+        (withBuzzwords, newSeed) = prependBuzzwords nBuzzwords acc.seed acc.outputList
+        newOutputList = word :: withBuzzwords
+    in
+        { acc | outputList = newOutputList, seed = newSeed, ratioSum = newRatioSum }
+
+
+prependBuzzwords : Int -> Seed -> List String -> (List String, Seed)
+prependBuzzwords n seed words =
+    case n of
+        0 ->
+            (words, seed)
+
+        _ ->
+            let
+                (randomIdx, newSeed) = Random.step (Random.int 0 (buzzwordsLength - 1)) seed
+                buzzword =
+                    buzzwords
+                        |> List.drop randomIdx
+                        |> List.head
+                        |> Maybe.withDefault ""
+            in
+                prependBuzzwords (n - 1) newSeed (buzzword :: words)
+
+
 -- CONSTANTS
 
 
