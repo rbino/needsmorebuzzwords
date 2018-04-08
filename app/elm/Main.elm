@@ -7,8 +7,8 @@ import Bootstrap.Grid as Grid
 import Bootstrap.Grid.Col as Col
 import Bootstrap.Utilities.Border as Border
 import Bootstrap.Utilities.Spacing as Spacing
-import Html exposing (Html, h1, div, text, program)
-import Html.Attributes as H exposing (type_)
+import Html exposing (Html, a, h1, div, text, p, program)
+import Html.Attributes as H exposing (href, style, type_)
 import Html.Events exposing (onInput)
 import Random exposing (Seed, initialSeed, minInt, maxInt)
 import Round
@@ -72,6 +72,7 @@ view model =
                     [ Spacing.mt2 ]
                     [ text "Needs more buzzwords" ]
                 , mainContent model
+                , footer
                 ]
             ]
         ]
@@ -111,8 +112,31 @@ mainContent model =
                     |> H.value
                 ]
             ]
-        , div []
+        , div
+            [ style
+                [ ("min-height", "100px") ]
+            ]
             [ text model.outputText ]
+        ]
+
+
+footer : Html Msg
+footer =
+    div
+        [ style
+            [ ("background-color", "#ededed")
+            ]
+        , Spacing.mt3
+        , Spacing.p3
+        ]
+        [ text "Made by "
+        , a
+            [ href "https://rbino.com" ]
+            [ text "rbino" ]
+        , text ", source on "
+        , a
+            [ href "https://github.com/rbino/needsmorebuzzwords" ]
+            [ text "Github" ]
         ]
 
 
