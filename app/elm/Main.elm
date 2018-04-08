@@ -120,6 +120,26 @@ subscriptions model =
 -- CONSTANTS
 
 
+buzzwords : List String
+buzzwords =
+    [ "cloud based"
+    , "blockchain based"
+    , "IoT ready"
+    , "webscale"
+    , "cyber"
+    , "containerized"
+    , "reproducible"
+    , "agile"
+    , "functional"
+    , "cryptocurrency enabled"
+    ]
+
+
+buzzwordsLength : Int
+buzzwordsLength =
+    List.length buzzwords
+
+
 rangeScalingFactor : Float
 rangeScalingFactor =
     1000
