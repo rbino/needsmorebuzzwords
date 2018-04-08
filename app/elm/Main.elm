@@ -3,12 +3,12 @@ module Main exposing (main)
 
 import Bootstrap.Form.Input as Input
 import Bootstrap.Form.Textarea as Textarea
-import Bootstrap.Utilities.Border as Border
-import Bootstrap.Utilities.Spacing as Spacing
 import Bootstrap.Grid as Grid
 import Bootstrap.Grid.Col as Col
-import Html exposing (Html, h1, div, text, program, textarea, input)
-import Html.Attributes as H exposing (min, max, type_)
+import Bootstrap.Utilities.Border as Border
+import Bootstrap.Utilities.Spacing as Spacing
+import Html exposing (Html, h1, div, text, program)
+import Html.Attributes as H exposing (type_)
 import Html.Events exposing (onInput)
 import Random exposing (Seed, initialSeed, minInt, maxInt)
 import Round
