@@ -90,7 +90,7 @@ update msg model =
             ( model, Cmd.none )
 
         TextChanged text ->
-            ( { model | inputText = text }
+            ( updateOutput { model | inputText = text }
             , Cmd.none )
 
         BuzzwordRatioChanged rangeText ->
@@ -99,13 +99,25 @@ update msg model =
                     String.toFloat rangeText
                     |> Result.withDefault (model.buzzwordRatio * rangeScalingFactor)
                     |> flip (/) rangeScalingFactor
+
             in
-                ( { model | buzzwordRatio = newBuzzwordRatio}, Cmd.none )
+                ( updateOutput { model | buzzwordRatio = newBuzzwordRatio }
+                , Cmd.none )
 
         RandomIntGenerated randomInt ->
             ( { model | randomSeed = initialSeed randomInt }, Cmd.none )
 
 
+updateOutput : Model -> Model
+updateOutput model =
+    let
+        (newOutputText, newSeed) =
+            buzzwordize
+                model.inputText
+                model.buzzwordRatio
+                model.randomSeed
+    in
+        { model | outputText = newOutputText, randomSeed = newSeed }
 
 
 -- SUBSCRIPTIONS
