@@ -11,7 +11,8 @@ import Random exposing (Seed, initialSeed, minInt, maxInt)
 
 
 type alias Model =
-    { outputText : String
+    { inputText : String
+    , outputText : String
     , buzzwordRatio : Float
     , randomSeed : Seed
     }
@@ -24,7 +25,8 @@ init =
 
 initModel : Model
 initModel =
-    { outputText = ""
+    { inputText = ""
+    , outputText = ""
     , buzzwordRatio = 0.1
     , randomSeed = initialSeed 0
     }
@@ -88,7 +90,8 @@ update msg model =
             ( model, Cmd.none )
 
         TextChanged text ->
-            ( { model | outputText = text }, Cmd.none )
+            ( { model | inputText = text }
+            , Cmd.none )
 
         BuzzwordRatioChanged rangeText ->
             let
