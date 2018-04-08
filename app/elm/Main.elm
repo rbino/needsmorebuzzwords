@@ -62,56 +62,58 @@ type Msg
 
 view : Model -> Html Msg
 view model =
-    div []
-        [ Grid.container []
-            [ Grid.row []
-                [ Grid.col
-                    [ Col.md6
-                    , Col.offsetMd3
-                    ]
-                    [ h1 [] [text "Needs more buzzwords"]
-                    ]
-                ]
-            , mainContent model
-            ]
-        ]
-
-mainContent : Model -> Html Msg
-mainContent model =
-        Grid.row []
+    Grid.container []
+        [ Grid.row []
             [ Grid.col
                 [ Col.md6
                 , Col.offsetMd3
                 ]
-                [ Textarea.textarea
-                    [ Textarea.id "inputtext"
-                    , Textarea.onInput TextChanged
-                    , Textarea.rows 7
-                    ]
-                , div
-                    [ Spacing.mt4
-                    , Spacing.mb2
-                    ]
-                    [ text <| "Words/buzzwords ratio: " ++ Round.round 2 model.buzzwordRatio ]
-                , Input.number
-                    [ Input.onInput BuzzwordRatioChanged
-                    , Input.attrs
-                        [ type_ "range"
-                        , H.min <| toString 0
-                        , H.max <| toString 100
-                        , Spacing.mt2
-                        , Spacing.mb4
-                        , Border.none
-                        , fromLogScale model.buzzwordRatio
-                            |> round
-                            |> toString
-                            |> H.value
-                        ]
-                    ]
-                , div []
-                    [ text model.outputText ]
+                [ h1
+                    [ Spacing.mt2 ]
+                    [ text "Needs more buzzwords" ]
+                , mainContent model
                 ]
             ]
+        ]
+
+
+mainContent : Model -> Html Msg
+mainContent model =
+    div
+        []
+        [ div
+            [ Spacing.mt2
+            , Spacing.mb2
+            ]
+            [ text "Paste your not-enough-buzzwordy text here" ]
+        , Textarea.textarea
+            [ Textarea.id "inputtext"
+            , Textarea.onInput TextChanged
+            , Textarea.rows 7
+            ]
+        , div
+            [ Spacing.mt4
+            , Spacing.mb2
+            ]
+            [ text <| "Words/buzzwords ratio: " ++ Round.round 2 model.buzzwordRatio ]
+        , Input.number
+            [ Input.onInput BuzzwordRatioChanged
+            , Input.attrs
+                [ type_ "range"
+                , H.min <| toString 0
+                , H.max <| toString 100
+                , Spacing.mt2
+                , Spacing.mb4
+                , Border.none
+                , fromLogScale model.buzzwordRatio
+                    |> round
+                    |> toString
+                    |> H.value
+                ]
+            ]
+        , div []
+            [ text model.outputText ]
+        ]
 
 
 
