@@ -1,7 +1,13 @@
 module Main exposing (main)
 
 
-import Html exposing (Html, div, text, program, textarea, input)
+import Bootstrap.Form.Input as Input
+import Bootstrap.Form.Textarea as Textarea
+import Bootstrap.Utilities.Border as Border
+import Bootstrap.Utilities.Spacing as Spacing
+import Bootstrap.Grid as Grid
+import Bootstrap.Grid.Col as Col
+import Html exposing (Html, h1, div, text, program, textarea, input)
 import Html.Attributes as H exposing (min, max, type_)
 import Html.Events exposing (onInput)
 import Random exposing (Seed, initialSeed, minInt, maxInt)
@@ -55,28 +61,52 @@ type Msg
 
 view : Model -> Html Msg
 view model =
-    div
-        []
-        [ div
-            []
-            [ textarea
-                [ onInput TextChanged ]
-                []
-            ]
-        , div
-            []
-            [ input
-                [ type_ "range"
-                , H.min <| toString scaledMinBuzzwordRatio
-                , H.max <| toString scaledMaxBuzzwordRatio
-                , onInput BuzzwordRatioChanged
+    div []
+        [ Grid.container []
+            [ Grid.row []
+                [ Grid.col
+                    [ Col.md6
+                    , Col.offsetMd3
+                    ]
+                    [ h1 [] [text "Needs more buzzwords"]
+                    ]
                 ]
-                []
+            , mainContent model
             ]
-        , div
-            []
-            [ text model.outputText ]
         ]
+
+mainContent : Model -> Html Msg
+mainContent model =
+        Grid.row []
+            [ Grid.col
+                [ Col.md6
+                , Col.offsetMd3
+                ]
+                [ Textarea.textarea
+                    [ Textarea.id "inputtext"
+                    , Textarea.onInput TextChanged
+                    , Textarea.rows 7
+                    ]
+                , div
+                    [ Spacing.mt4
+                    , Spacing.mb2
+                    ]
+                    [ text <| "Words/buzzwords ratio: " ++ toString model.buzzwordRatio ]
+                , Input.number
+                    [ Input.onInput BuzzwordRatioChanged
+                    , Input.attrs
+                        [ type_ "range"
+                        , H.min <| toString scaledMinBuzzwordRatio
+                        , H.max <| toString scaledMaxBuzzwordRatio
+                        , Spacing.mt2
+                        , Spacing.mb4
+                        , Border.none
+                        ]
+                    ]
+                , div []
+                    [ text model.outputText ]
+                ]
+            ]
 
 
 
