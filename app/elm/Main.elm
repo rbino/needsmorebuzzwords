@@ -96,11 +96,15 @@ mainContent model =
                     [ Input.onInput BuzzwordRatioChanged
                     , Input.attrs
                         [ type_ "range"
-                        , H.min <| toString scaledMinBuzzwordRatio
-                        , H.max <| toString scaledMaxBuzzwordRatio
+                        , H.min <| toString 0
+                        , H.max <| toString 100
                         , Spacing.mt2
                         , Spacing.mb4
                         , Border.none
+                        , fromLogScale model.buzzwordRatio
+                            |> round
+                            |> toString
+                            |> H.value
                         ]
                     ]
                 , div []
@@ -127,8 +131,8 @@ update msg model =
             let
                 newBuzzwordRatio =
                     String.toFloat rangeText
-                    |> Result.withDefault (model.buzzwordRatio * rangeScalingFactor)
-                    |> flip (/) rangeScalingFactor
+                    |> Result.withDefault model.buzzwordRatio
+                    |> toLogScale
 
             in
                 ( updateOutput { model | buzzwordRatio = newBuzzwordRatio }
@@ -148,6 +152,31 @@ updateOutput model =
                 model.randomSeed
     in
         { model | outputText = newOutputText, randomSeed = newSeed }
+
+
+
+-- UTILS
+
+
+toLogScale : Float -> Float
+toLogScale value =
+    let
+        minv = logBase e minBuzzwordRatio
+        maxv = logBase e maxBuzzwordRatio
+        scale = (maxv - minv) / 100
+    in
+        e ^ (minv + scale * value)
+
+
+fromLogScale : Float -> Float
+fromLogScale value =
+    let
+        minv = logBase e minBuzzwordRatio
+        maxv = logBase e maxBuzzwordRatio
+        scale = (maxv - minv) / 100
+    in
+        ((logBase e value) - minv) / scale
+
 
 
 -- SUBSCRIPTIONS
@@ -258,19 +287,14 @@ buzzwordsLength =
     List.length buzzwords
 
 
-rangeScalingFactor : Float
-rangeScalingFactor =
-    1000
+minBuzzwordRatio : Float
+minBuzzwordRatio =
+    0.1
 
 
-scaledMinBuzzwordRatio : Float
-scaledMinBuzzwordRatio =
-    0.1 * rangeScalingFactor
-
-
-scaledMaxBuzzwordRatio : Float
-scaledMaxBuzzwordRatio =
-    10 * rangeScalingFactor
+maxBuzzwordRatio : Float
+maxBuzzwordRatio =
+    10
 
 
 
