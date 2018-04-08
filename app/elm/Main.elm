@@ -11,6 +11,7 @@ import Html exposing (Html, h1, div, text, program, textarea, input)
 import Html.Attributes as H exposing (min, max, type_)
 import Html.Events exposing (onInput)
 import Random exposing (Seed, initialSeed, minInt, maxInt)
+import Round
 
 
 -- MODEL
@@ -91,7 +92,7 @@ mainContent model =
                     [ Spacing.mt4
                     , Spacing.mb2
                     ]
-                    [ text <| "Words/buzzwords ratio: " ++ toString model.buzzwordRatio ]
+                    [ text <| "Words/buzzwords ratio: " ++ Round.round 2 model.buzzwordRatio ]
                 , Input.number
                     [ Input.onInput BuzzwordRatioChanged
                     , Input.attrs
