@@ -131,7 +131,7 @@ footer =
         ]
         [ text "Made by "
         , a
-            [ href "https://rbino.com" ]
+            [ href "https://github.com/rbino" ]
             [ text "rbino" ]
         , text ", source on "
         , a
