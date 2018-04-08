@@ -232,6 +232,18 @@ buzzwords =
     , "agile"
     , "functional"
     , "cryptocurrency enabled"
+    , "reactive"
+    , "virtualized"
+    , "web"
+    , "enterprise"
+    , "AI"
+    , "machine learning"
+    , "deep learning"
+    , "UX"
+    , "whitepaper-validated"
+    , "production ready"
+    , "distributed"
+    , "infinitely scalable"
     ]
 
 
