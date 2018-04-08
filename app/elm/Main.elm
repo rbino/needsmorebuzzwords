@@ -208,13 +208,19 @@ prependBuzzwords n seed words =
         _ ->
             let
                 (randomIdx, newSeed) = Random.step (Random.int 0 (buzzwordsLength - 1)) seed
+                lastWord =
+                    List.head words
+                    |> Maybe.withDefault ""
                 buzzword =
                     buzzwords
                         |> List.drop randomIdx
                         |> List.head
                         |> Maybe.withDefault ""
             in
-                prependBuzzwords (n - 1) newSeed (buzzword :: words)
+                if lastWord /= buzzword then
+                    prependBuzzwords (n - 1) newSeed (buzzword :: words)
+                else
+                    prependBuzzwords n newSeed words
 
 
 -- CONSTANTS
