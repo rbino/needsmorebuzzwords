@@ -8,8 +8,7 @@ import Bootstrap.Grid.Col as Col
 import Bootstrap.Utilities.Border as Border
 import Bootstrap.Utilities.Spacing as Spacing
 import Html exposing (Html, a, h1, div, text, p, program)
-import Html.Attributes as H exposing (href, style, type_)
-import Html.Events exposing (onInput)
+import Html.Attributes as H exposing (href, placeholder, style, type_)
 import Random exposing (Seed, initialSeed, minInt, maxInt)
 import Round
 
@@ -32,7 +31,7 @@ init =
 
 initModel : Model
 initModel =
-    { inputText = ""
+    { inputText = initialText
     , outputText = ""
     , buzzwordRatio = 0.5
     , randomSeed = initialSeed 0
@@ -91,6 +90,8 @@ mainContent model =
             [ Textarea.id "inputtext"
             , Textarea.onInput TextChanged
             , Textarea.rows 7
+            , Textarea.attrs
+                [ placeholder initialText ]
             ]
         , div
             [ Spacing.mt4
@@ -151,8 +152,16 @@ update msg model =
             ( model, Cmd.none )
 
         TextChanged text ->
-            ( updateOutput { model | inputText = text }
-            , Cmd.none )
+            let
+                newInputText =
+                    if text == "" then
+                        initialText
+                    else
+                        text
+
+            in
+                ( updateOutput { model | inputText = newInputText }
+                , Cmd.none )
 
         BuzzwordRatioChanged rangeText ->
             let
@@ -166,7 +175,8 @@ update msg model =
                 , Cmd.none )
 
         RandomIntGenerated randomInt ->
-            ( { model | randomSeed = initialSeed randomInt }, Cmd.none )
+            ( updateOutput { model | randomSeed = initialSeed randomInt }
+            , Cmd.none )
 
 
 updateOutput : Model -> Model
@@ -322,6 +332,11 @@ minBuzzwordRatio =
 maxBuzzwordRatio : Float
 maxBuzzwordRatio =
     10
+
+
+initialText : String
+initialText =
+    "Buy our product with features."
 
 
 
