@@ -89,7 +89,7 @@ mainContent model =
         , Textarea.textarea
             [ Textarea.id "inputtext"
             , Textarea.onInput TextChanged
-            , Textarea.rows 7
+            , Textarea.rows 3
             , Textarea.attrs
                 [ placeholder initialText ]
             ]
@@ -121,7 +121,7 @@ mainContent model =
         , Textarea.textarea
             [ Textarea.id "outputtext"
             , Textarea.onInput TextChanged
-            , Textarea.rows 7
+            , Textarea.rows 4
             , Textarea.value model.outputText
             , Textarea.attrs
                 [ readonly True
