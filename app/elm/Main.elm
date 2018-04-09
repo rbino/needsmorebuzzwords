@@ -34,7 +34,7 @@ initModel : Model
 initModel =
     { inputText = ""
     , outputText = ""
-    , buzzwordRatio = 0.1
+    , buzzwordRatio = 0.5
     , randomSeed = initialSeed 0
     }
 
