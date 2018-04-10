@@ -7,7 +7,7 @@ import Bootstrap.Grid as Grid
 import Bootstrap.Grid.Col as Col
 import Bootstrap.Utilities.Border as Border
 import Bootstrap.Utilities.Spacing as Spacing
-import Html exposing (Html, a, h1, hr, div, text, p, program)
+import Html exposing (Html, a, h3, hr, div, text, p, program)
 import Html.Attributes as H exposing (href, id, placeholder, readonly, style, type_)
 import Random exposing (Seed, initialSeed, minInt, maxInt)
 import Round
@@ -68,7 +68,7 @@ view model =
                 [ Col.md6
                 , Col.offsetMd3
                 ]
-                [ h1
+                [ h3
                     [ Spacing.mt2 ]
                     [ text "Needs more buzzwords" ]
                 , mainContent model
