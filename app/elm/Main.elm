@@ -305,7 +305,7 @@ prependBuzzwords n seed words =
 
 buzzwords : List String
 buzzwords =
-    [ "cloud based"
+    [ "cloud"
     , "blockchain based"
     , "IoT ready"
     , "webscale"
@@ -327,6 +327,23 @@ buzzwords =
     , "production ready"
     , "distributed"
     , "infinitely scalable"
+    , "innovative"
+    , "disruptive"
+    , "bleeding edge"
+    , "devops oriented"
+    , "performance-driven"
+    , "data-driven"
+    , "end-to-end"
+    , "growth hacking"
+    , "immersive"
+    , "microservice oriented"
+    , "mobile-first"
+    , "real-time"
+    , "social"
+    , "single page"
+    , "viral"
+    , "4.0"
+    , "2.0"
     ]
 
 
