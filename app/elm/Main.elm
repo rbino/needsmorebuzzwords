@@ -391,6 +391,7 @@ buzzwords =
     , "reactive"
     , "real-time"
     , "reproducible"
+    , "secure"
     , "single page"
     , "social"
     , "UX-driven"
