@@ -1,6 +1,7 @@
 module Main exposing (main)
 
 
+import Bootstrap.Button as Button
 import Bootstrap.Form.Input as Input
 import Bootstrap.Form.Textarea as Textarea
 import Bootstrap.Grid as Grid
@@ -130,6 +131,12 @@ mainContent model =
                     [ ("background-color", "transparent") ]
                 ]
             ]
+        , Button.button
+            [ Button.primary
+            , Button.attrs
+                [ Spacing.mt3 ]
+            ]
+            [ text "Regenerate" ]
         ]
 
 
