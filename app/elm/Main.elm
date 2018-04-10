@@ -8,7 +8,7 @@ import Bootstrap.Grid.Col as Col
 import Bootstrap.Utilities.Border as Border
 import Bootstrap.Utilities.Spacing as Spacing
 import Html exposing (Html, a, h1, hr, div, text, p, program)
-import Html.Attributes as H exposing (href, placeholder, readonly, style, type_)
+import Html.Attributes as H exposing (href, id, placeholder, readonly, style, type_)
 import Random exposing (Seed, initialSeed, minInt, maxInt)
 import Round
 
@@ -72,6 +72,7 @@ view model =
                     [ Spacing.mt2 ]
                     [ text "Needs more buzzwords" ]
                 , mainContent model
+                , hr [] []
                 , footer
                 ]
             ]
@@ -83,62 +84,79 @@ mainContent model =
     div
         []
         [ div
-            [ Spacing.mt2
-            , Spacing.mb2
+            [ id "input-section"
+            , Spacing.mb3
             ]
-            [ text "Paste your not-enough-buzzwordy text here" ]
-        , Textarea.textarea
-            [ Textarea.id "inputtext"
-            , Textarea.onInput TextChanged
-            , Textarea.rows 3
-            , Textarea.attrs
-                [ placeholder initialText ]
-            ]
+            (inputSection model)
         , div
-            [ Spacing.mt3
-            , Spacing.mb2
-            ]
-            [ text <| "Words/buzzwords ratio: " ++ Round.round 2 model.buzzwordRatio ]
-        , Input.number
-            [ Input.onInput BuzzwordRatioChanged
-            , Input.attrs
-                [ type_ "range"
-                , H.min <| toString 0
-                , H.max <| toString 100
-                , Spacing.mt2
-                , Spacing.mb4
-                , Border.none
-                , fromLogScale model.buzzwordRatio
-                    |> round
-                    |> toString
-                    |> H.value
-                ]
-            ]
-        , hr [] []
-        , div
-            [ Spacing.mt2
-            , Spacing.mb2
-            ]
-            [ text "Here is your management-approved text" ]
-        , Textarea.textarea
-            [ Textarea.id "outputtext"
-            , Textarea.onInput TextChanged
-            , Textarea.rows 4
-            , Textarea.value model.outputText
-            , Textarea.attrs
-                [ readonly True
-                , style
-                    [ ( "background-color", "transparent" ) ]
-                ]
-            ]
-        , Button.button
-            [ Button.primary
-            , Button.onClick Regenerate
-            , Button.attrs
-                [ Spacing.mt3 ]
-            ]
-            [ text "Regenerate" ]
+            [ id "output-section" ]
+            (outputSection model)
         ]
+
+
+inputSection : Model -> List (Html Msg)
+inputSection model =
+    [ div
+        [ Spacing.mt2
+        , Spacing.mb2
+        ]
+        [ text "Paste your not-enough-buzzwordy text here" ]
+    , Textarea.textarea
+        [ Textarea.id "inputtext"
+        , Textarea.onInput TextChanged
+        , Textarea.rows 3
+        , Textarea.attrs
+            [ placeholder initialText ]
+        ]
+    , div
+        [ Spacing.mt3
+        , Spacing.mb2
+        ]
+        [ text <| "Words/buzzwords ratio: " ++ Round.round 2 model.buzzwordRatio ]
+    , Input.number
+        [ Input.onInput BuzzwordRatioChanged
+        , Input.attrs
+            [ type_ "range"
+            , H.min <| toString 0
+            , H.max <| toString 100
+            , Spacing.mt2
+            , Spacing.mb4
+            , Border.none
+            , fromLogScale model.buzzwordRatio
+                |> round
+                |> toString
+                |> H.value
+            ]
+        ]
+    ]
+
+
+outputSection : Model -> List (Html Msg)
+outputSection model =
+    [ div
+        [ Spacing.mt2
+        , Spacing.mb2
+        ]
+        [ text "Here is your management-approved text" ]
+    , Textarea.textarea
+        [ Textarea.id "outputtext"
+        , Textarea.onInput TextChanged
+        , Textarea.rows 4
+        , Textarea.value model.outputText
+        , Textarea.attrs
+            [ readonly True
+            , style
+                [ ( "background-color", "transparent" ) ]
+            ]
+        ]
+    , Button.button
+        [ Button.primary
+        , Button.onClick Regenerate
+        , Button.attrs
+            [ Spacing.mt3 ]
+        ]
+        [ text "Regenerate" ]
+    ]
 
 
 footer : Html Msg
