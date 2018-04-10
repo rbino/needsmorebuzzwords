@@ -7,7 +7,7 @@ import Bootstrap.Grid as Grid
 import Bootstrap.Grid.Col as Col
 import Bootstrap.Utilities.Border as Border
 import Bootstrap.Utilities.Spacing as Spacing
-import Html exposing (Html, a, h1, div, text, p, program)
+import Html exposing (Html, a, h1, hr, div, text, p, program)
 import Html.Attributes as H exposing (href, placeholder, readonly, style, type_)
 import Random exposing (Seed, initialSeed, minInt, maxInt)
 import Round
@@ -113,6 +113,7 @@ mainContent model =
                     |> H.value
                 ]
             ]
+        , hr [] []
         , div
             [ Spacing.mt2
             , Spacing.mb2
