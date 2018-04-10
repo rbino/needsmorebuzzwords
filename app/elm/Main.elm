@@ -94,7 +94,7 @@ mainContent model =
                 [ placeholder initialText ]
             ]
         , div
-            [ Spacing.mt4
+            [ Spacing.mt3
             , Spacing.mb2
             ]
             [ text <| "Words/buzzwords ratio: " ++ Round.round 2 model.buzzwordRatio ]
