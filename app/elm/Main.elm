@@ -1,6 +1,5 @@
 module Main exposing (main)
 
-
 import Bootstrap.Button as Button
 import Bootstrap.Form.Input as Input
 import Bootstrap.Form.Textarea as Textarea
@@ -129,7 +128,7 @@ mainContent model =
             , Textarea.attrs
                 [ readonly True
                 , style
-                    [ ("background-color", "transparent") ]
+                    [ ( "background-color", "transparent" ) ]
                 ]
             ]
         , Button.button
@@ -146,7 +145,7 @@ footer : Html Msg
 footer =
     div
         [ style
-            [ ("background-color", "#ededed")
+            [ ( "background-color", "#ededed" )
             ]
         , Spacing.mt3
         , Spacing.p3
@@ -179,35 +178,37 @@ update msg model =
                         initialText
                     else
                         text
-
             in
                 ( updateOutput { model | inputText = newInputText }
-                , Cmd.none )
+                , Cmd.none
+                )
 
         BuzzwordRatioChanged rangeText ->
             let
                 newBuzzwordRatio =
                     String.toFloat rangeText
-                    |> Result.withDefault model.buzzwordRatio
-                    |> toLogScale
-
+                        |> Result.withDefault model.buzzwordRatio
+                        |> toLogScale
             in
                 ( updateOutput { model | buzzwordRatio = newBuzzwordRatio }
-                , Cmd.none )
+                , Cmd.none
+                )
 
         RandomIntGenerated randomInt ->
             ( updateOutput { model | randomSeed = initialSeed randomInt }
-            , Cmd.none )
+            , Cmd.none
+            )
 
         Regenerate ->
             ( updateOutput model
-            , Cmd.none )
+            , Cmd.none
+            )
 
 
 updateOutput : Model -> Model
 updateOutput model =
     let
-        (newOutputText, newSeed) =
+        ( newOutputText, newSeed ) =
             buzzwordize
                 model.inputText
                 model.buzzwordRatio
@@ -223,9 +224,14 @@ updateOutput model =
 toLogScale : Float -> Float
 toLogScale value =
     let
-        minv = logBase e minBuzzwordRatio
-        maxv = logBase e maxBuzzwordRatio
-        scale = (maxv - minv) / 100
+        minv =
+            logBase e minBuzzwordRatio
+
+        maxv =
+            logBase e maxBuzzwordRatio
+
+        scale =
+            (maxv - minv) / 100
     in
         e ^ (minv + scale * value)
 
@@ -233,9 +239,14 @@ toLogScale value =
 fromLogScale : Float -> Float
 fromLogScale value =
     let
-        minv = logBase e minBuzzwordRatio
-        maxv = logBase e maxBuzzwordRatio
-        scale = (maxv - minv) / 100
+        minv =
+            logBase e minBuzzwordRatio
+
+        maxv =
+            logBase e maxBuzzwordRatio
+
+        scale =
+            (maxv - minv) / 100
     in
         ((logBase e value) - minv) / scale
 
@@ -253,12 +264,13 @@ subscriptions model =
 -- DATA MANIPULATION
 
 
-buzzwordize : String -> Float -> Seed -> (String, Seed)
+buzzwordize : String -> Float -> Seed -> ( String, Seed )
 buzzwordize input buzzwordRatio seed =
     let
         splitted =
             String.split " " input
                 |> List.filter (not << String.isEmpty)
+
         finalAcc =
             List.foldl
                 (buzzwordIntersperse buzzwordRatio)
@@ -282,26 +294,36 @@ type alias BuzzwordIntersperseAcc =
 buzzwordIntersperse : Float -> String -> BuzzwordIntersperseAcc -> BuzzwordIntersperseAcc
 buzzwordIntersperse buzzwordRatio word acc =
     let
-        nBuzzwords = floor acc.ratioSum
-        newRatioSum = acc.ratioSum - toFloat nBuzzwords + buzzwordRatio
-        (withBuzzwords, newSeed) = prependBuzzwords nBuzzwords acc.seed acc.outputList
-        newOutputList = word :: withBuzzwords
+        nBuzzwords =
+            floor acc.ratioSum
+
+        newRatioSum =
+            acc.ratioSum - toFloat nBuzzwords + buzzwordRatio
+
+        ( withBuzzwords, newSeed ) =
+            prependBuzzwords nBuzzwords acc.seed acc.outputList
+
+        newOutputList =
+            word :: withBuzzwords
     in
         { acc | outputList = newOutputList, seed = newSeed, ratioSum = newRatioSum }
 
 
-prependBuzzwords : Int -> Seed -> List String -> (List String, Seed)
+prependBuzzwords : Int -> Seed -> List String -> ( List String, Seed )
 prependBuzzwords n seed words =
     case n of
         0 ->
-            (words, seed)
+            ( words, seed )
 
         _ ->
             let
-                (randomIdx, newSeed) = Random.step (Random.int 0 (buzzwordsLength - 1)) seed
+                ( randomIdx, newSeed ) =
+                    Random.step (Random.int 0 (buzzwordsLength - 1)) seed
+
                 lastWord =
                     List.head words
-                    |> Maybe.withDefault ""
+                        |> Maybe.withDefault ""
+
                 buzzword =
                     buzzwords
                         |> List.drop randomIdx
@@ -312,6 +334,7 @@ prependBuzzwords n seed words =
                     prependBuzzwords (n - 1) newSeed (buzzword :: words)
                 else
                     prependBuzzwords n newSeed words
+
 
 
 -- CONSTANTS
