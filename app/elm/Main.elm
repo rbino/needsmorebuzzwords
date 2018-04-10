@@ -54,6 +54,7 @@ type Msg
     | TextChanged String
     | BuzzwordRatioChanged String
     | RandomIntGenerated Int
+    | Regenerate
 
 
 
@@ -133,6 +134,7 @@ mainContent model =
             ]
         , Button.button
             [ Button.primary
+            , Button.onClick Regenerate
             , Button.attrs
                 [ Spacing.mt3 ]
             ]
@@ -195,6 +197,10 @@ update msg model =
 
         RandomIntGenerated randomInt ->
             ( updateOutput { model | randomSeed = initialSeed randomInt }
+            , Cmd.none )
+
+        Regenerate ->
+            ( updateOutput model
             , Cmd.none )
 
 
